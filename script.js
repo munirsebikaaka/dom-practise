@@ -29,3 +29,50 @@ document.addEventListener('keydown', function (e) {
     closeModal();
   }
 });
+const header = document.querySelector('.header');
+const nav = document.querySelector('.nav');
+function obsFunc(entries) {
+  entries.forEach(el => {
+    if (!el.isIntersecting) {
+      nav.classList.add('sticky');
+    } else {
+      nav.classList.remove('sticky');
+    }
+  });
+}
+const obsObj = {
+  root: null,
+  threshold: 0,
+};
+const observer = new IntersectionObserver(obsFunc, obsObj);
+observer.observe(header);
+const slide = document.querySelectorAll('.slide');
+const btnRight = document.querySelector('.slider__btn--right');
+const btnLeft = document.querySelector('.slider__btn--left');
+let curVal = 0;
+let maxVal = slide.length - 1;
+console.log(maxVal);
+slide.forEach((el, i) => {
+  el.style.transform = `translateX(${100 * i}%)`;
+});
+
+btnRight.addEventListener('click', () => {
+  if (curVal === maxVal) {
+    curVal = 0;
+  }
+  curVal++;
+  slide.forEach((el, i) => {
+    el.style.transform = `translateX(${100 * (i - curVal)}%)`;
+  });
+});
+btnLeft.addEventListener('click', function () {
+  if (curVal === 0) {
+    curVal = maxVal;
+  }
+  curVal--;
+  slide.forEach((el, i) => {
+    el.style.transform = `translateX(${100 * (i - curVal)}%)`;
+  });
+});
+
+evC.chageBattery();
