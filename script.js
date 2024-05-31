@@ -46,12 +46,12 @@ const obsObj = {
 };
 const observer = new IntersectionObserver(obsFunc, obsObj);
 observer.observe(header);
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const slide = document.querySelectorAll('.slide');
 const btnRight = document.querySelector('.slider__btn--right');
 const btnLeft = document.querySelector('.slider__btn--left');
 let curVal = 0;
 let maxVal = slide.length - 1;
-console.log(maxVal);
 slide.forEach((el, i) => {
   el.style.transform = `translateX(${100 * i}%)`;
 });
@@ -66,13 +66,49 @@ btnRight.addEventListener('click', () => {
   });
 });
 btnLeft.addEventListener('click', function () {
-  if (curVal === 0) {
-    curVal = maxVal;
-  }
+  if (curVal === 0) curVal = maxVal;
   curVal--;
-  slide.forEach((el, i) => {
-    el.style.transform = `translateX(${100 * (i - curVal)}%)`;
-  });
+  slide.forEach(
+    (el, i) => (el.style.transform = `translateX(${100 * (i - curVal)}%)`)
+  );
 });
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const operationsCell = document.querySelector('.operations__tab-container');
+const operationBtn = document.querySelectorAll('.operations__tab');
+const operationsContent = document.querySelectorAll('.operations__content');
 
-evC.chageBattery();
+operationsCell.addEventListener('click', function (e) {
+  operationBtn.forEach(el => el.classList.remove('operations__tab--active'));
+  operationsContent.forEach(el =>
+    el.classList.remove('operations__content--active')
+  );
+  const click = e.target.closest('.operations__tab');
+  click.classList.add('operations__tab--active');
+
+  const x = document.querySelector(
+    `.operations__content--${click.dataset.tab}`
+  );
+  x.classList.add('operations__content--active');
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const sections = document.querySelectorAll('.section');
+sections.forEach(el => el.classList.add('section--hidden'));
+const obseveSection = function (entries) {
+  entries.forEach(entry => {
+    if (entry.isIntersecting)
+      sections.forEach(el => el.classList.remove('section--hidden'));
+  });
+};
+const secObs = new IntersectionObserver(obseveSection, {
+  root: null,
+  threshold: 0.1,
+});
+sections.forEach(section => secObs.observe(section));
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const navLinks = document.querySelector('.nav__links');
+navLinks.addEventListener('click', function (e) {
+  const clickEvent = e.target;
+  if (clickEvent.classList.contains('nav__link')) {
+    console.log(clickEvent);
+  }
+});
