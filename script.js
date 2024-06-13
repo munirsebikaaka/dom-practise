@@ -52,25 +52,52 @@ const btnRight = document.querySelector('.slider__btn--right');
 const btnLeft = document.querySelector('.slider__btn--left');
 let curVal = 0;
 let maxVal = slide.length - 1;
+
+const dots = document.querySelector('.dots');
+const createDOTS = () => {
+  slide.forEach((_, i) => {
+    dots.insertAdjacentHTML(
+      'beforeend',
+      `<button class="dots__dot" data-slide='${i}'></button>`
+    );
+  });
+};
+createDOTS();
+
 slide.forEach((el, i) => {
   el.style.transform = `translateX(${100 * i}%)`;
 });
 
-btnRight.addEventListener('click', () => {
+function workWithSlides(slides) {
+  slide.forEach((el, i) => {
+    el.style.transform = `translateX(${100 * (i - slides)}%)`;
+  });
+}
+workWithSlides(0);
+function rightSlide() {
   if (curVal === maxVal) {
     curVal = 0;
   }
   curVal++;
-  slide.forEach((el, i) => {
-    el.style.transform = `translateX(${100 * (i - curVal)}%)`;
-  });
-});
-btnLeft.addEventListener('click', function () {
-  if (curVal === 0) curVal = maxVal;
+  workWithSlides(curVal);
+}
+function slideLeft() {
+  if (curVal === 0) {
+    curVal = maxVal;
+  }
   curVal--;
-  slide.forEach(
-    (el, i) => (el.style.transform = `translateX(${100 * (i - curVal)}%)`)
-  );
+  workWithSlides(curVal);
+}
+
+btnLeft.addEventListener('click', slideLeft);
+btnRight.addEventListener('click', rightSlide);
+
+dots.addEventListener('click', function (e) {
+  if (e.target.classList.contains('dots__dot')) {
+    const slide = e.target.dataset.slide;
+    console.log(slide);
+    workWithSlides(slide);
+  }
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const operationsCell = document.querySelector('.operations__tab-container');
@@ -105,10 +132,15 @@ const secObs = new IntersectionObserver(obseveSection, {
 });
 sections.forEach(section => secObs.observe(section));
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const navLinks = document.querySelector('.nav__links');
-navLinks.addEventListener('click', function (e) {
-  const clickEvent = e.target;
-  if (clickEvent.classList.contains('nav__link')) {
-    console.log(clickEvent);
-  }
-});
+// const navLink = document.querySelectorAll('.nav__link');
+// navLink.forEach(el =>
+//   el.addEventListener('mouseover', function () {
+//     el.style.backgroundColor = 'red';
+//   })
+// );
+// navLink.forEach(el =>
+//   el.addEventListener('mouseout', function () {
+//     el.style.backgroundColor = 'green';
+//   })
+// );
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
