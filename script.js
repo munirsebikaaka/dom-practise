@@ -161,3 +161,18 @@ navLinks.addEventListener('click', function (e) {
     document.querySelector(scroll).scrollIntoView({ behavior: 'smooth' });
   }
 });
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const imgToBeLoaded = document.querySelectorAll('img[data-src]');
+console.log(imgToBeLoaded);
+const loading = function (entries, observer) {
+  const [entry] = entries;
+  if (entry.isIntersecting) {
+    entry.target.src = entry.target.dataset.src;
+    imgToBeLoaded.forEach(img => img.classList.remove('lazy-img'));
+  }
+};
+const imgObserver = new IntersectionObserver(loading, {
+  root: null,
+  threshold: 0,
+});
+imgToBeLoaded.forEach(img => imgObserver.observe(img));
