@@ -144,3 +144,20 @@ sections.forEach(section => secObs.observe(section));
 //   })
 // );
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const navLinkEl = document.querySelectorAll('.nav__link');
+const navLinks = document.querySelector('.nav__links');
+// navLinkEl.forEach(el =>
+//   el.addEventListener('click', function (e) {
+//     e.preventDefault();
+//     const scroll = this.getAttribute('href');
+//     document.querySelector(scroll).scrollIntoView({ behavior: 'smooth' });
+//   })
+// );
+navLinks.addEventListener('click', function (e) {
+  e.preventDefault();
+  if (e.target.classList.contains('nav__link')) {
+    const scroll = e.target.getAttribute('href');
+    console.log(scroll);
+    document.querySelector(scroll).scrollIntoView({ behavior: 'smooth' });
+  }
+});
